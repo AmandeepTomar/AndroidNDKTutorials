@@ -26,5 +26,4 @@ Java_com_amandeep_androidndktutorials_MainActivity_processString(JNIEnv *env,
     const std::string message = java_msg + c_message;
 
     return env->NewStringUTF(message.c_str());
-
 }

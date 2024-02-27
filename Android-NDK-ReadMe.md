@@ -346,26 +346,26 @@ MyJniWrapper jniWrapper=new MyJniWrapper();
 ```java
 
 
-#include <jni.h>
+#include<jni.h>
 
-extern "C" JNIEXPORT jintArray JNICALL
-Java_com_example_SignalProcessor_processSignal(JNIEnv *env, jobject thiz, jintArray inputSignal) {
-    jint *inputArray = env->GetIntArrayElements(inputSignal, NULL);
-    // Perform signal processing tasks using inputArray
-    
-    // For demonstration purposes, let's just square each element
-    int length = env->GetArrayLength(inputSignal);
-    jintArray outputSignal = env->NewIntArray(length);
-    jint *outputArray = env->GetIntArrayElements(outputSignal, NULL);
-    for (int i = 0; i < length; ++i) {
-        outputArray[i] = inputArray[i] * inputArray[i];
-    }
-    
-    env->ReleaseIntArrayElements(inputSignal, inputArray, 0);
-    env->ReleaseIntArrayElements(outputSignal, outputArray, 0);
-    
-    return outputSignal;
-}
+        extern"C"JNIEXPORT jintArray JNICALL
+        Java_com_example_SignalProcessor_processSignal(JNIEnv*env,jobject thiz,jintArray inputSignal){
+        jint*inputArray=env->GetIntArrayElements(inputSignal,NULL);
+        // Perform signal processing tasks using inputArray
+
+        // For demonstration purposes, let's just square each element
+        int length=env->GetArrayLength(inputSignal);
+        jintArray outputSignal=env->NewIntArray(length);
+        jint*outputArray=env->GetIntArrayElements(outputSignal,NULL);
+        for(int i=0;i<length; ++i){
+        outputArray[i]=inputArray[i]*inputArray[i];
+        }
+
+        env->ReleaseIntArrayElements(inputSignal,inputArray,0);
+        env->ReleaseIntArrayElements(outputSignal,outputArray,0);
+
+        return outputSignal;
+        }
 
 ```
 

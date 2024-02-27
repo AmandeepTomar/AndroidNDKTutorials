@@ -369,3 +369,49 @@ Java_com_example_SignalProcessor_processSignal(JNIEnv *env, jobject thiz, jintAr
 
 ```
 
+### Exception Handling in JNI
+
+Checking for Exceptions:
+
+`ExceptionCheck():` This function checks if a Java exception is pending during a JNI call. If an
+exception exists, it returns JNI_TRUE, and you can retrieve the exception object using
+`ExceptionOccurred().`
+`ExceptionOccurred():` If ExceptionCheck() returns JNI_TRUE, this function retrieves the pending Java
+exception object, allowing you to access its details like the exception class and message.
+
+2. Throwing Java Exceptions from C/C++:
+
+`ThrowNew():` This function throws a new Java exception object from within your native code. You can
+specify the exception class and message to convey the specific error encountered.
+ExceptionClear(): This function clears any pending Java exceptions, ensuring your code continues
+execution without unexpected behavior.
+
+3. Error Handling Mechanisms:
+
+Return values: Use specific return values from your native methods to indicate success or failure.
+For example, you could return -1 on error and positive values for successful execution.
+Error codes: Define custom error codes within your native code and return them in specific
+situations. These codes can be mapped to meaningful messages or actions in your Java code.
+
+```java
+#include<jni.h>
+
+        JNIEXPORT jint JNICALL Java_com_example_mypackage_MyNativeClass_add(JNIEnv*env,jobject obj,jint a,jint b){
+        // Check for pending exceptions
+        if(env->ExceptionCheck()){
+        return-1; // Or handle the exception appropriately
+        }
+
+        // Perform your operation
+        int result=a+b;
+
+        // Handle potential errors
+        if(result< 0){
+        env->ThrowNew(env,IllegalStateException,"Result cannot be negative");
+        return-1;
+        }
+
+        return result;
+        } 
+```
+
